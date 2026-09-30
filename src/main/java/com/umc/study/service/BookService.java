@@ -27,4 +27,8 @@ public class BookService {
     public void createRental(Map<String, Object> body) {
         bookRepository.createRental(body);
     }
+
+    public void returnRental(Map<String, Object> body) {
+        bookRepository.returnRental(body);
+    }
 }

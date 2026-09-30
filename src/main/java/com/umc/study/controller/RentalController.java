@@ -19,5 +19,10 @@ public class RentalController {
         return "신규 도서 대여 기록이 생성되었습니다!";
     }
 
+    @PatchMapping("/{rentalId}/return")
+    public String returnRental(@RequestBody Map<String, Object> body) {
+        bookService.returnRental(body);
+        return "도서 반납 처리가 완료되었습니다!";
+    }
 
 }
