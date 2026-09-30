@@ -29,4 +29,11 @@ public class BookRepository {
         String sql = "SELECT * FROM book WHERE category_id = ?";
         return jdbcTemplate.queryForList(sql, categoryId);
     }
+
+    public void createRental(Map<String, Object> body) {
+        String sql = "INSERT INTO rental(user_id, book_id, rented_at, due_at) VALUES (?,?,NOW(),DATE_ADD(NOW(), INTERVAL 7 DAY))";
+        jdbcTemplate.update(sql, body.get("userId"), body.get("bookId"));
+    }
+
+
 }
