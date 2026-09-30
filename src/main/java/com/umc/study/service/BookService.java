@@ -23,4 +23,8 @@ public class BookService {
 
     public List<Map<String, Object>> findCategory(Long categoryId)
     { return bookRepository.findCategory(categoryId);}
+
+    public void createRental(Map<String, Object> body) {
+        bookRepository.createRental(body);
+    }
 }
