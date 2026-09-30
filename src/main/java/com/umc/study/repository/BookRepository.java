@@ -35,5 +35,9 @@ public class BookRepository {
         jdbcTemplate.update(sql, body.get("userId"), body.get("bookId"));
     }
 
+    public void returnRental(Map<String, Object> body) {
+        String sql = "UPDATE rental SET returned_at=now() WHERE rental_id=?";
+        jdbcTemplate.update(sql, body.get("rentalId"));
+    }
 
 }
