@@ -24,4 +24,9 @@ public class BookRepository {
 
         jdbcTemplate.update(sql, body.get("categoryId"),body.get("title"),body.get("description"));
     }
+
+    public List<Map<String, Object>> findCategory(Long categoryId) {
+        String sql = "SELECT * FROM book WHERE category_id = ?";
+        return jdbcTemplate.queryForList(sql, categoryId);
+    }
 }

@@ -20,4 +20,7 @@ public class BookService {
     public void createBook(Map<String, Object> body) {
         bookRepository.save(body);
     }
+
+    public List<Map<String, Object>> findCategory(Long categoryId)
+    { return bookRepository.findCategory(categoryId);}
 }
