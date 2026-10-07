@@ -23,7 +23,7 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<Book> books = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
 
     public Category(String name) {
         this.name = name;

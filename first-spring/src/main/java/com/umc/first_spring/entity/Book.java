@@ -26,7 +26,7 @@ public class Book {
     private String description;
 
     @Column(name = "is_available", nullable = false)
-    private Boolean isAvailable = true;
+    private final Boolean isAvailable = true;
 
     public Book(Category category, String title, String description) {
         this.category = category;
