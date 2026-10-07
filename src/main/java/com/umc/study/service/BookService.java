@@ -4,6 +4,7 @@ import com.umc.study.dto.BookResponse;
 import com.umc.study.dto.CreateBookRequest;
 import com.umc.study.entity.Book;
 import com.umc.study.entity.Category;
+import com.umc.study.exception.CategoryNotFoundException;
 import com.umc.study.repository.BookRepository;
 import com.umc.study.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +46,24 @@ public class BookService {
                 .toList();
     }
 
+//    @Transactional
+//    public void createBook(CreateBookRequest request) {
+//        Category category = categoryRepository.findById(request.categoryId())
+//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+//
+//        Book book = new Book(category, request.title(), request.description());
+//    }
+
     @Transactional
     public void createBook(CreateBookRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
-
+                .orElseThrow(CategoryNotFoundException::new);
         Book book = new Book(category, request.title(), request.description());
+
+        bookRepository.save(book);
     }
+
+
 }
 
 //    @Transactional
