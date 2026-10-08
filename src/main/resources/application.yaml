@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: "umc-study"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PW}
+#spring:
+#  application:
+#    name: "umc-study"
+#
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/library_db?serverTimezone=UTC&useSSL=false
+#    username: root
+#    password: Moari1234!
