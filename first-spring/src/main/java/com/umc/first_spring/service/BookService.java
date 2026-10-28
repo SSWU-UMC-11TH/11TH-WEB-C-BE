@@ -7,8 +7,10 @@ import com.umc.first_spring.entity.Category;
 import com.umc.first_spring.repository.BookRepository;
 import com.umc.first_spring.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class BookService {
     @Transactional
     public BookResponse createBook(CreateBookRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."));
 
         Book book = new Book(category, request.title(), request.description());
         return BookResponse.from(bookRepository.save(book));
