@@ -1,4 +1,11 @@
 package com.umc.movie.repository;
 
-public class MemberRepository {
+import com.umc.movie.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    boolean existsByNickname(String nickname);
+
+    boolean existsByEmail(String email);
 }
