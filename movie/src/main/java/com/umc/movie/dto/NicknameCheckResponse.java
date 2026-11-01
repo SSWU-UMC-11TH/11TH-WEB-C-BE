@@ -1,4 +1,6 @@
 package com.umc.movie.dto;
 
-public class NicknameCheckResponse {
+public record NicknameCheckResponse(
+        boolean available
+) {
 }
