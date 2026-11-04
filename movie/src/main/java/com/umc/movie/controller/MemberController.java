@@ -48,10 +48,4 @@ public class MemberController {
         return memberService.checkEmail(email);
     }
 
-    @GetMapping("/{memberId}/ratings")
-    public List<RatingResponse> getRatings(
-            @PathVariable Long memberId
-    ) {
-        return memberService.getRatings(memberId);
-    }
 }
