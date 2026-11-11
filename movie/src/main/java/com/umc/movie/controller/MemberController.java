@@ -12,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import com.umc.movie.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
+import com.umc.movie.auth.AuthInterceptor;
+import com.umc.movie.dto.MemberInfoResponse;
+import org.springframework.web.bind.annotation.RequestAttribute;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +26,18 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+
+
+    // 내 정보 조회
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
+
 
     @PostMapping
     public ResponseEntity<ApiResponse<MemberResponse>> signUp(
