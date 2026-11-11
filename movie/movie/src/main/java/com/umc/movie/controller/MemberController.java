@@ -1,6 +1,7 @@
 package com.umc.movie.controller;
 
 import com.umc.movie.dto.*;
+import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,13 @@ public class MemberController {
         MemberResponse response = memberService.signUp(request);
 
         return ResponseEntity.status(201).body(ApiResponse.created("회원가입에 성공했습니다.", response));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
     }
 }
