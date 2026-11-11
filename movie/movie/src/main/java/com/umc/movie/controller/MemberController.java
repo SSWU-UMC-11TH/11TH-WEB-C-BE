@@ -7,10 +7,14 @@ import com.umc.movie.dto.MemberResponse;
 import com.umc.movie.dto.NicknameCheckResponse;
 import com.umc.movie.dto.SignUpRequest;
 import com.umc.movie.service.MemberService;
+import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.interceptor.AuthInterceptor;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +39,13 @@ public class MemberController {
         MemberResponse response = memberService.signUp(request);
         return ResponseEntity.status(201)
                 .body(ApiResponse.created("회원가입에 성공했습니다.", response));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
     }
 }
