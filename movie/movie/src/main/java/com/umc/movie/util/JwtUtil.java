@@ -46,6 +46,9 @@ public class JwtUtil {
         } catch(ExpiredJwtException e) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "AUTH401_4", "토큰이 만료되었습니다. 다시 로그인해주세요.");
         } catch(JwtException | IllegalArgumentException e) {
+            System.err.println("JWT 검증 실패: " + e.getClass().getSimpleName());
+            System.err.println("원인: " + e.getMessage());
+
             throw new ApiException(HttpStatus.UNAUTHORIZED, "AUTH401_3", "유효하지 않은 토큰입니다.");
         }
     }
