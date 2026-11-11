@@ -41,7 +41,7 @@ public class MemberService {
 
         Member member = Member.builder()
                 .email(request.email())
-                .password(request.password())
+                .password(passwordEncoder.encode(request.password()))
                 .nickname(request.nickname())
                 .build();
 
