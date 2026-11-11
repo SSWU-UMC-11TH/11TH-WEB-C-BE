@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.exception.ApiException;
 
 import java.util.List;
 
@@ -94,4 +96,21 @@ public class MemberService {
                 .map(rating -> RatingResponse.from(rating))
                 .toList();
     }
+
+
+    // 내 정보 조회
+    public MemberInfoResponse getMyInfo(Long memberId) {
+
+        // 회원 ID로 회원 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(
+                        HttpStatus.NOT_FOUND,
+                        "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."
+                ));
+
+        // 회원 정보를 DTO로 변환하여 반환
+        return MemberInfoResponse.from(member);
+    }
+
 }
