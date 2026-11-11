@@ -20,6 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.umc.movie.dto.MemberInfoResponse;
 import com.umc.movie.exception.ApiException;
 
+import com.umc.movie.dto.NicknameUpdateRequest;
+
 import java.util.List;
 
 @Service
@@ -110,6 +112,34 @@ public class MemberService {
                 ));
 
         // 회원 정보를 DTO로 변환하여 반환
+        return MemberInfoResponse.from(member);
+    }
+
+    @Transactional
+    public MemberInfoResponse updateMyNickname(
+            Long memberId,
+            NicknameUpdateRequest request
+    ) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(
+                        HttpStatus.NOT_FOUND,
+                        "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."
+                ));
+
+        // 현재 회원을 제외하고 닉네임 중복 검사
+        if (memberRepository.existsByNicknameAndMemberIdNot(
+                request.nickname(), memberId
+        )) {
+            throw new ApiException(
+                    HttpStatus.CONFLICT,
+                    "MEMBER409_1",
+                    "이미 사용 중인 닉네임입니다."
+            );
+        }
+
+        member.updateNickname(request.nickname());
+
         return MemberInfoResponse.from(member);
     }
 

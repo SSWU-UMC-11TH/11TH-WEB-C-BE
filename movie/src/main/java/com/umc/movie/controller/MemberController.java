@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import com.umc.movie.auth.AuthInterceptor;
 import com.umc.movie.dto.MemberInfoResponse;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import com.umc.movie.dto.NicknameUpdateRequest;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +63,17 @@ public class MemberController {
             @PathVariable String email
     ) {
         return memberService.checkEmail(email);
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyNickname(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @Valid @RequestBody NicknameUpdateRequest request
+    ) {
+        MemberInfoResponse response =
+                memberService.updateMyNickname(memberId, request);
+
+        return ResponseEntity.ok(ApiResponse.ok(response));
     }
 
 }
