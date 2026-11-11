@@ -1,7 +1,6 @@
 package com.umc.movie.exception;
 
 import com.umc.movie.dto.ApiResponse;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,4 +66,17 @@ public class GlobalExceptionHandler {
                         e.getReason() != null ? e.getReason() : "요청 처리에 실패했습니다."
                 ));
     }
+
+    // 우리가 직접 던진 ApiException 처리
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiResponse<Void>> handleApiException(
+            ApiException exception
+    ) {
+        return ResponseEntity.status(exception.getStatus())
+                .body(ApiResponse.failure(
+                        exception.getCode(),
+                        exception.getMessage()
+                ));
+    }
+
 }
