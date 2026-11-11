@@ -1,0 +1,79 @@
+package com.umc.movie.controller;
+
+import com.umc.movie.dto.EmailCheckResponse;
+import com.umc.movie.dto.NicknameCheckResponse;
+import com.umc.movie.dto.RatingResponse;
+import com.umc.movie.service.MemberService;
+import com.umc.movie.dto.MemberResponse;
+import com.umc.movie.dto.SignUpRequest;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import com.umc.movie.dto.ApiResponse;
+import lombok.RequiredArgsConstructor;
+
+import com.umc.movie.auth.AuthInterceptor;
+import com.umc.movie.dto.MemberInfoResponse;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import com.umc.movie.dto.NicknameUpdateRequest;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/members")
+@RequiredArgsConstructor
+public class MemberController {
+
+    private final MemberService memberService;
+
+
+    // 내 정보 조회
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
+
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<MemberResponse>> signUp(
+            @Valid @RequestBody SignUpRequest request
+    ) {
+        MemberResponse response = memberService.signUp(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.created(response));
+    }
+
+    @GetMapping("/nickname/{nickname}")
+    public NicknameCheckResponse checkNickname(
+            @PathVariable String nickname
+    ) {
+        return memberService.checkNickname(nickname);
+    }
+
+    @GetMapping("/email/{email}")
+    public EmailCheckResponse checkEmail(
+            @PathVariable String email
+    ) {
+        return memberService.checkEmail(email);
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyNickname(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @Valid @RequestBody NicknameUpdateRequest request
+    ) {
+        MemberInfoResponse response =
+                memberService.updateMyNickname(memberId, request);
+
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
+
+}
