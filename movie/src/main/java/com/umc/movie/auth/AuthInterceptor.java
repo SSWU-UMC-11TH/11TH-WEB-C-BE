@@ -35,6 +35,14 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        // 공개 평점 조회 API는 인증 검사 제외
+        if (
+                HttpMethod.GET.matches(request.getMethod())
+                        && request.getRequestURI().matches("/members/\\d+/ratings")
+        ) {
+            return true;
+        }
+
         // Authorization 헤더 가져오기
         String authorization = request.getHeader(
                 HttpHeaders.AUTHORIZATION
