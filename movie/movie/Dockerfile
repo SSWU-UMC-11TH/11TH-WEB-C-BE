@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu AS build
 WORKDIR /app
 
 COPY . .
-W
+
 RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar --no-daemon -x test
 
