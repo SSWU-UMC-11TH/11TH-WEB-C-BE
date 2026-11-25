@@ -30,6 +30,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testRuntimeOnly 'com.h2database:h2' // 테스트에서만 쓰는 메모리 DB
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	// JWT 생성/검증 라이브러리
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
